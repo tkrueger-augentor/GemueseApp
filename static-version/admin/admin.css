@@ -1,0 +1,108 @@
+.admin-main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.login-form {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 320px;
+  margin: 60px auto;
+}
+
+.login-form input {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.login-form button,
+.add-form button,
+.admin-table button {
+  background: var(--color-green);
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.login-form button:hover,
+.add-form button:hover {
+  background: var(--color-green-dark);
+}
+
+.error-text {
+  color: #c0392b;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+.admin-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.add-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.add-form input[type="text"],
+.add-form input[type="number"] {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table input[type="text"],
+.admin-table input[type="number"] {
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  width: 100%;
+}
+
+.admin-table .row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-table .delete-btn {
+  background: #c0392b;
+}
+
+.admin-table .delete-btn:hover {
+  background: #a93226;
+}

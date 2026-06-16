@@ -2,6 +2,11 @@
 
 Web-App zur Auswahl von Gemüsesorten per Kachel-Tipp, mit Live-Gesamtpreis und Admin-Verwaltung für Sorten/Preise.
 
+Es gibt zwei Varianten:
+
+- **Hauptversion (dieser Ordner):** Node.js-Server, Daten in einer CSV-Datei – geeignet wenn mehrere Geräte auf dieselben Preise/Sorten zugreifen sollen.
+- **`static-version/`:** Reines HTML/CSS/JS ohne Server. Einfach `static-version/index.html` doppelklicken oder die Dateien auf einen geteilten Ordner/Webspace legen. Daten liegen dann im Browser-Speicher (localStorage) – das heißt, Änderungen in der Verwaltung gelten nur für den Browser/Rechner, auf dem man sie vornimmt, nicht automatisch für alle Geräte.
+
 ## Start
 
 **Per Doppelklick:**
