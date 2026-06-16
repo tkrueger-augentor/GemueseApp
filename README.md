@@ -4,11 +4,16 @@ Web-App zur Auswahl von Gemüsesorten per Kachel-Tipp, mit Live-Gesamtpreis und 
 
 ## Start
 
+**Per Doppelklick:**
+- Windows: `start.bat` doppelklicken
+- Mac: `start.command` doppelklicken (beim ersten Mal ggf. Rechtsklick → "Öffnen" wegen Sicherheitswarnung)
+
+**Per Terminal:**
 ```
 node server.js
 ```
 
-Standardport: `3000` (mit `PORT` env var anpassbar).
+Danach im Browser `http://localhost:3000` öffnen. Standardport: `3000` (mit `PORT` env var anpassbar).
 
 ## Bedienung
 
