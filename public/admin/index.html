@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verwaltung – Gemüsekiste</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🛠️ Verwaltung</h1>
+    <a class="admin-link" href="/">Zur Gemüsekiste</a>
+  </header>
+
+  <main id="loginView" class="admin-main">
+    <form id="loginForm" class="login-form">
+      <h2>Anmeldung</h2>
+      <input type="password" id="passwordInput" placeholder="Passwort" autocomplete="current-password" required />
+      <button type="submit">Anmelden</button>
+      <p id="loginError" class="error-text"></p>
+    </form>
+  </main>
+
+  <main id="adminView" class="admin-main" style="display:none">
+    <div class="admin-toolbar">
+      <button id="logoutBtn" class="reset-btn">Abmelden</button>
+    </div>
+
+    <section class="admin-card">
+      <h2>Neues Gemüse anlegen</h2>
+      <form id="addForm" class="add-form">
+        <input type="text" id="newName" placeholder="Name" required />
+        <input type="number" id="newPrice" placeholder="Preis (€)" step="0.01" min="0" required />
+        <label><input type="checkbox" id="newActive" checked /> aktiv</label>
+        <button type="submit">Hinzufügen</button>
+      </form>
+    </section>
+
+    <section class="admin-card">
+      <h2>Gemüse verwalten</h2>
+      <table class="admin-table" id="adminTable">
+        <thead>
+          <tr><th>Name</th><th>Preis (€)</th><th>Aktiv</th><th></th></tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

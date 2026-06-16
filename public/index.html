@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemüsekiste</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🥕 Gemüsekiste</h1>
+    <div class="total-price" id="totalPrice">0,00 €</div>
+    <a class="admin-link" href="/admin/">Verwaltung</a>
+  </header>
+  <div class="actions-bar">
+    <button class="reset-btn" id="resetBtn">Auswahl zurücksetzen</button>
+  </div>
+  <main>
+    <div class="tiles" id="tiles"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      Aktuell ist kein Gemüse verfügbar.
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

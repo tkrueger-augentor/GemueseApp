@@ -1,0 +1,10 @@
+{
+  "name": "gemueseapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gemüsekiste Web-App - Kachel-Auswahl mit Preisanzeige",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

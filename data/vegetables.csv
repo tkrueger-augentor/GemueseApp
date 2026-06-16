@@ -1,0 +1,9 @@
+id,name,price,active
+1,Tomaten,2.50,true
+2,Gurken,1.80,true
+3,Zucchini,1.50,true
+4,Kartoffeln,1.20,true
+5,Zwiebeln,1.00,true
+6,Karotten,1.30,true
+7,Paprika,2.20,false
+8,Salat,1.60,true
