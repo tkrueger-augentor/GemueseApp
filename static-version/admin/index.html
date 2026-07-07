@@ -6,6 +6,67 @@
   <title>Verwaltung – Gemüsekiste</title>
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="admin.css" />
+  <style>
+    /* Tab navigation */
+    .tab-nav { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 2px solid var(--color-border); }
+    .tab-btn {
+      padding: 10px 18px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--color-text-light);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-btn:hover { color: var(--color-green); }
+    .tab-btn.active { color: var(--color-green-dark); font-weight: 700; border-bottom-color: var(--color-green); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Week selector */
+    .week-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .week-pill {
+      padding: 7px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      background: #fff;
+    }
+    .week-pill.active { background: var(--color-green); color: #fff; border-color: var(--color-green); font-weight: 600; }
+
+    /* Harvest table */
+    .harvest-table { width: 100%; border-collapse: collapse; }
+    .harvest-table th, .harvest-table td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--color-border); }
+    .harvest-table .total-col { font-weight: 700; color: var(--color-green-dark); text-align: right; padding-right: 0; }
+    .harvest-table .qty-big { font-size: 1.3rem; font-weight: 700; }
+
+    /* Basket list */
+    .basket-list { display: flex; flex-direction: column; gap: 14px; }
+    .basket-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .basket-card h3 { margin: 0 0 10px; font-size: 1rem; color: var(--color-green-dark); }
+    .basket-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .basket-item {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.9rem;
+    }
+    .basket-item .item-qty { font-weight: 700; color: var(--color-green-dark); }
+
+    /* User mgmt table */
+    .user-table { width: 100%; border-collapse: collapse; }
+    .user-table th, .user-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--color-border); }
+
+    .no-orders { color: var(--color-text-light); text-align: center; padding: 30px; }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -13,50 +74,90 @@
     <a class="admin-link" href="../index.html">Zur Gemüsekiste</a>
   </header>
 
+  <!-- LOGIN -->
   <main id="loginView" class="admin-main">
     <form id="loginForm" class="login-form">
-      <h2>Anmeldung</h2>
+      <h2>Admin-Anmeldung</h2>
       <input type="password" id="passwordInput" placeholder="Passwort" autocomplete="current-password" required />
       <button type="submit">Anmelden</button>
       <p id="loginError" class="error-text"></p>
     </form>
   </main>
 
-  <main id="adminView" class="admin-main" style="display:none">
+  <!-- ADMIN PANEL -->
+  <main id="adminView" class="admin-main" style="display:none;max-width:800px">
     <div class="admin-toolbar">
       <button id="logoutBtn" class="reset-btn">Abmelden</button>
     </div>
 
-    <section class="admin-card">
-      <h2>Neues Gemüse anlegen</h2>
-      <form id="addForm" class="add-form">
-        <input type="text" id="newName" placeholder="Name" required />
-        <input type="number" id="newPrice" placeholder="Preis (€)" step="0.01" min="0" required />
-        <label><input type="checkbox" id="newActive" checked /> aktiv</label>
-        <button type="submit">Hinzufügen</button>
-      </form>
-    </section>
+    <!-- Tabs -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="gemüse">🥦 Gemüse &amp; Preise</button>
+      <button class="tab-btn" data-tab="ernte">🌾 Ernte-Übersicht</button>
+      <button class="tab-btn" data-tab="koerbe">🧺 Körbe pro Benutzer</button>
+      <button class="tab-btn" data-tab="benutzer">👤 Benutzer</button>
+    </div>
 
-    <section class="admin-card">
-      <h2>Gemüse verwalten</h2>
-      <table class="admin-table" id="adminTable">
-        <thead>
-          <tr><th>Name</th><th>Preis (€)</th><th>Aktiv</th><th></th></tr>
-        </thead>
-        <tbody id="adminTableBody"></tbody>
-      </table>
-    </section>
+    <!-- TAB: Gemüse & Preise -->
+    <div class="tab-panel active" id="tab-gemüse">
+      <section class="admin-card">
+        <h2>Neues Gemüse anlegen</h2>
+        <form id="addForm" class="add-form">
+          <input type="text" id="newName" placeholder="Name" required />
+          <input type="number" id="newPrice" placeholder="Preis (€)" step="0.01" min="0" required />
+          <label><input type="checkbox" id="newActive" checked /> aktiv</label>
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </section>
+      <section class="admin-card">
+        <h2>Gemüse verwalten</h2>
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Preis (€)</th><th>Aktiv</th><th></th></tr></thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </section>
+      <section class="admin-card">
+        <h2>Admin-Passwort ändern</h2>
+        <form id="passwordForm" class="add-form">
+          <input type="password" id="newPasswordInput" placeholder="Neues Passwort" required />
+          <button type="submit">Ändern</button>
+        </form>
+      </section>
+    </div>
 
-    <section class="admin-card">
-      <h2>Admin-Passwort ändern</h2>
-      <form id="passwordForm" class="add-form">
-        <input type="password" id="newPasswordInput" placeholder="Neues Passwort" required />
-        <button type="submit">Ändern</button>
-      </form>
-    </section>
+    <!-- TAB: Ernte -->
+    <div class="tab-panel" id="tab-ernte">
+      <section class="admin-card">
+        <h2>Was muss ich ernten?</h2>
+        <div class="week-selector" id="harvestWeekSelector"></div>
+        <div id="harvestContent"><p class="no-orders">Keine Bestellungen für diese Woche.</p></div>
+      </section>
+    </div>
+
+    <!-- TAB: Körbe -->
+    <div class="tab-panel" id="tab-koerbe">
+      <section class="admin-card">
+        <h2>Körbe pro Benutzer</h2>
+        <div class="week-selector" id="basketWeekSelector"></div>
+        <div id="basketContent"><p class="no-orders">Keine Bestellungen für diese Woche.</p></div>
+      </section>
+    </div>
+
+    <!-- TAB: Benutzer -->
+    <div class="tab-panel" id="tab-benutzer">
+      <section class="admin-card">
+        <h2>Registrierte Benutzer</h2>
+        <table class="user-table">
+          <thead><tr><th>Benutzername</th><th>Rolle</th><th></th></tr></thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </section>
+    </div>
   </main>
 
   <script src="../data.js"></script>
+  <script src="../users.js"></script>
+  <script src="../orders.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

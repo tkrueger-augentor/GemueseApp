@@ -10,7 +10,10 @@
   <header class="topbar">
     <h1>🥕 Gemüsekiste</h1>
     <div class="total-price" id="totalPrice">0,00 €</div>
-    <a class="admin-link" href="admin/index.html">Verwaltung</a>
+    <div style="display:flex;gap:16px;align-items:center">
+      <a class="admin-link" id="userNavLink" href="login.html">Anmelden</a>
+      <a class="admin-link" href="admin/index.html">Verwaltung</a>
+    </div>
   </header>
   <div class="actions-bar">
     <button class="reset-btn" id="resetBtn">Auswahl zurücksetzen</button>
@@ -22,6 +25,16 @@
     </div>
   </main>
   <script src="data.js"></script>
+  <script src="users.js"></script>
   <script src="app.js"></script>
+  <script>
+    // Update nav link based on session
+    const _session = getUserSession();
+    const _navLink = document.getElementById('userNavLink');
+    if (_session) {
+      _navLink.textContent = 'Meine Bestellung';
+      _navLink.href = 'order.html';
+    }
+  </script>
 </body>
 </html>

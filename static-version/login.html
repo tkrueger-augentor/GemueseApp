@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anmelden – Gemüsekiste</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .auth-wrap { max-width: 360px; margin: 60px auto; padding: 0 16px; }
+    .auth-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .auth-card h2 { margin: 0 0 20px; font-size: 1.2rem; }
+    .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+    .field label { font-size: 0.85rem; color: var(--color-text-light); }
+    .field input {
+      padding: 10px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      width: 100%;
+      background: var(--color-green);
+      background-image: linear-gradient(to bottom, rgba(255,255,255,.2), rgba(255,255,255,.01));
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+    .btn-primary:hover { background: var(--color-green-dark); }
+    .toggle-link { text-align: center; margin-top: 16px; font-size: 0.9rem; }
+    .toggle-link a { color: var(--color-green); cursor: pointer; text-decoration: underline; }
+    .error-text { color: #c0392b; font-size: 0.85rem; min-height: 1.2em; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <h1>🥕 Gemüsekiste</h1>
+    <a class="admin-link" href="index.html">Startseite</a>
+  </header>
+
+  <div class="auth-wrap">
+    <!-- LOGIN -->
+    <div class="auth-card" id="loginCard">
+      <h2>Anmelden</h2>
+      <form id="loginForm">
+        <div class="field"><label>Benutzername</label><input type="text" id="loginUsername" autocomplete="username" required /></div>
+        <div class="field"><label>Passwort</label><input type="password" id="loginPassword" autocomplete="current-password" required /></div>
+        <p class="error-text" id="loginError"></p>
+        <button type="submit" class="btn-primary">Anmelden</button>
+      </form>
+      <div class="toggle-link">Noch kein Konto? <a id="toRegister">Registrieren</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-card" id="registerCard" style="display:none">
+      <h2>Registrieren</h2>
+      <form id="registerForm">
+        <div class="field"><label>Benutzername</label><input type="text" id="regUsername" autocomplete="username" required /></div>
+        <div class="field"><label>Passwort</label><input type="password" id="regPassword" autocomplete="new-password" required /></div>
+        <div class="field"><label>Passwort wiederholen</label><input type="password" id="regPassword2" autocomplete="new-password" required /></div>
+        <p class="error-text" id="registerError"></p>
+        <button type="submit" class="btn-primary">Konto erstellen</button>
+      </form>
+      <div class="toggle-link">Bereits registriert? <a id="toLogin">Anmelden</a></div>
+    </div>
+  </div>
+
+  <script src="users.js"></script>
+  <script>
+    const REDIRECT_AFTER_LOGIN = 'order.html';
+
+    // Redirect if already logged in
+    if (getUserSession()) location.href = REDIRECT_AFTER_LOGIN;
+
+    document.getElementById('toRegister').addEventListener('click', () => {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('registerCard').style.display = 'block';
+    });
+    document.getElementById('toLogin').addEventListener('click', () => {
+      document.getElementById('registerCard').style.display = 'none';
+      document.getElementById('loginCard').style.display = 'block';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const user = await authenticateUser(username, password);
+      if (!user) {
+        document.getElementById('loginError').textContent = 'Benutzername oder Passwort falsch';
+        return;
+      }
+      setUserSession(user);
+      location.href = REDIRECT_AFTER_LOGIN;
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const password2 = document.getElementById('regPassword2').value;
+      const errEl = document.getElementById('registerError');
+      errEl.textContent = '';
+
+      if (username.length < 2) return (errEl.textContent = 'Benutzername zu kurz (mind. 2 Zeichen)');
+      if (password.length < 4) return (errEl.textContent = 'Passwort zu kurz (mind. 4 Zeichen)');
+      if (password !== password2) return (errEl.textContent = 'Passwörter stimmen nicht überein');
+
+      const result = await registerUser(username, password, 'user');
+      if (result.error) return (errEl.textContent = result.error);
+      setUserSession(result.user);
+      location.href = REDIRECT_AFTER_LOGIN;
+    });
+  </script>
+</body>
+</html>
